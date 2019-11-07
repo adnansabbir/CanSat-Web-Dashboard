@@ -5,7 +5,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 export const AppRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'cansat-tracking',
     pathMatch: 'full',
   }, {
     path: '',
@@ -17,6 +17,6 @@ export const AppRoutes: Routes = [
   }]},
   {
     path: '**',
-    redirectTo: 'dashboard'
+    redirectTo: 'cansat-tracking'
   }
 ]
