@@ -19,4 +19,4 @@ export const AppRoutes: Routes = [
     path: '**',
     redirectTo: 'cansat-tracking'
   }
-]
+];
