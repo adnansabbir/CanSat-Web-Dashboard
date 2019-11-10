@@ -1,9 +1,30 @@
 <div class="container-fluid">
-  <div class="row">
+  <div class="alert alert-warning" role="alert" *ngIf="!browserIsChrome">Works only on Chrome Browsers</div>
+  <div class="alert alert-warning" role="alert" *ngIf="!browserConnected">Chrome App to read Serial Data not available</div>
+  <form class="row" [formGroup]="serialConfigForm" (ngSubmit)="onConnect()">
+    <div class="form-group col-4">
+      <select name="" class="form-control" formControlName="port" (click)="reloadPorts()">
+        <option value="" disabled>Select Port</option>
+        <option *ngFor="let port of availablePorts" [value]="port">{{port}}</option>
+      </select>
+    </div>
+    <div class="form-group col-4">
+      <select name="" id="baud_rate" class="form-control" formControlName="baudRate">
+        <option value="" disabled>Select Baud Rate</option>
+        <option [ngValue]="baudRates" *ngFor="let baudRates of availableBaudRates">{{baudRates}}</option>
+      </select>
+    </div>
+    <span class="form-group col-4">
+      <button class="btn m-0 btn-primary" [disabled]="!serialConfigForm.valid || !browserIsChrome || !browserConnected" *ngIf="!serial_port_connected">Connect</button>
+      <button class="btn m-0 btn-danger" type="button" (click)="onSerialDisconnect()" *ngIf="serial_port_connected">Disconnect</button>
+    </span>
+  </form>
+
+  <div class="row" *ngIf="canSatData">
     <div class="col-lg-2 col-md-4 col-sm-6" *ngFor="let card of cards">
       <app-card
         [title]="card.title"
-        [subtitle]="card.subtitle"
+        [subtitle]="canSatData[card.data_key]"
         [icon_class_name]="card.icon_class_name">
       </app-card>
     </div>
