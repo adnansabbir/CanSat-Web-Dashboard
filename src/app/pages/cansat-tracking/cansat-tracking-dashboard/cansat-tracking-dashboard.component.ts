@@ -19,6 +19,7 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
   serialConfigForm: FormGroup;
   subscription_list: Subscription[] = [];
   serial_connection_error: string;
+  canSatDataSet: CanSatData[] = [];
   canSatData: CanSatData = {
     altitude: 0,
     battery_voltage: 0,
@@ -122,6 +123,7 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
             this.canSatData[key] = msg[key]
           }
         });
+        this.canSatDataSet.push(this.canSatData);
         this.serial_connection_error = null;
       }
 
