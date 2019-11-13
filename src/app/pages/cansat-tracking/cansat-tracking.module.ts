@@ -4,9 +4,10 @@ import {CansatTrackingDashboardComponent} from './cansat-tracking-dashboard/cans
 import {CommonComponentsModule} from '../../common-components/common-components.module';
 import {CansatTrackingRoutes} from './cansat-tracking.routes';
 import {ReactiveFormsModule} from '@angular/forms';
+import { MapComponent } from './cansat-tracking-dashboard/map/map.component';
 
 @NgModule({
-  declarations: [CansatTrackingDashboardComponent],
+  declarations: [CansatTrackingDashboardComponent, MapComponent],
   imports: [
     CommonModule,
     CommonComponentsModule,
