@@ -81,7 +81,7 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
     if (this.browserIsChrome) {
       try {
         this.browserConnection = window['chrome']['runtime'].connect(this.browserAppId);
-        this.browserConnection.postMessage({sender: 'cansat-tracker'});
+        this.browserConnection.postMessage({sender: 'chrome-serial-reader'});
         this.browserConnection.onMessage.addListener((msg) => {
           this.zone.run(() => {
             this.onMsgReceived(msg);
