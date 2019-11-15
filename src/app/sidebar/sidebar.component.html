@@ -18,7 +18,7 @@
         </a>
       </li>
       <li routerLinkActive="active" class="{{menuItem.class}}" *ngIf="router.url.includes(menuItem.path)">
-        <a [routerLink]="[subMenu.path]" *ngFor="let subMenu of menuItem.children" class="p-0 pl-5 mt-0">
+        <a [routerLink]="[subMenu.path]" *ngFor="let subMenu of menuItem.children" class="p-0 pl-5">
           <p>{{subMenu.title}}</p>
         </a>
       </li>
