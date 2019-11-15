@@ -2,6 +2,7 @@ import {Component, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@a
 import {CanSatData, CansatTrackingCards} from '../cansat-tracking.models';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {BehaviorSubject, Subscription} from 'rxjs';
+import {CansatTrackingService} from '../services/cansat-tracking.service';
 
 @Component({
   selector: 'app-cansat-tracking-dashboard',
@@ -9,7 +10,7 @@ import {BehaviorSubject, Subscription} from 'rxjs';
   styleUrls: ['./cansat-tracking-dashboard.component.scss']
 })
 export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnChanges {
-  browserAppId = 'kcjgihiihhdcefbgljdpelhjbbbdjolc';
+  browserAppId = '';
   browserIsChrome = false;
   browserConnected = false;
   browserConnection = null;
@@ -40,13 +41,11 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
     {title: 'Battery Voltage', subtitle: '', icon_class_name: 'nc-bulb-63', data_key: 'battery_voltage'},
   ];
 
-  constructor(private zone: NgZone) {
-    this.connectToSerialReader();
+  constructor(private zone: NgZone,
+              public cansatTrackingService: CansatTrackingService) {
   }
 
-  ngOnDestroy()
-    :
-    void {
+  ngOnDestroy(): void {
     if (this.browserConnection
     ) {
       this.browserConnection.disconnect();
@@ -63,6 +62,8 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
 
   ngOnInit() {
     this.formInit();
+    this.browserAppId = this.cansatTrackingService.chromeSerialReaderAppId;
+    this.connectToSerialReader();
     this.subscription_list.push(
       this.serialConfigForm.valueChanges.subscribe(data => {
         console.log(data);
