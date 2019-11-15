@@ -6,13 +6,33 @@ import {CesiumMapConfig} from '../cansat-tracking.models';
 })
 export class CansatTrackingService {
 
-  mapOptions: CesiumMapConfig = {
-    access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
-      'eyJqdGkiOiIwZTkwMTE0NC0xNDI5LTQ0MzEtOGQzMy01NjA3NTA2NzlkMzIiLCJpZCI6MTgxNDQsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1NzM0MDA3MDl9.' +
-      'gdX9hOVF7dEjO8N2i04QPVthTmfpvdnSk9BvUgU5BCs',
-    model_url: '../../../../../assets/3d_models/CesiumBalloon.glb'
+  mapOptions: CesiumMapConfig;
+
+  localStorageKeys = {
+    map_config: 'cesium_map_config'
   };
 
   constructor() {
+    this.updateMapOptions();
   }
+
+  public updateMapOptions(): void {
+    this.mapOptions = this.getMapOptionFromLocalDB();
+  }
+
+  private getMapOptionFromLocalDB() {
+    return JSON.parse(localStorage.getItem(this.localStorageKeys['map_config']));
+  }
+
+  public storeMapOptions(): Promise<boolean> {
+    return this.storeMapOptionsToLocalDB(this.mapOptions);
+  }
+
+  private storeMapOptionsToLocalDB(data: CesiumMapConfig): Promise<boolean> {
+    localStorage.setItem(this.localStorageKeys['map_config'], JSON.stringify(data));
+    return new Promise((resolve, reject) => {
+      resolve(true);
+    });
+  }
+
 }
