@@ -14,3 +14,8 @@ export class CanSatData {
   pressure: number;
   temp: number;
 }
+
+export class CesiumMapConfig {
+  access_token: string;
+  model_url: string;
+}
