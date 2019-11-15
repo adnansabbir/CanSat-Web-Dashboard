@@ -1,26 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 
 export interface RouteInfo {
-    path: string;
-    title: string;
-    icon: string;
-    class: string;
+  path: string;
+  title: string;
+  icon: string;
+  class: string;
 }
 
-export const ROUTES: RouteInfo[] = [
-    { path: '/cansat-tracking',     title: 'CanSat Tracking',         icon:'nc-air-baloon',       class: '' },
+export interface RouteInfoWithChild {
+  path: string;
+  title: string;
+  icon: string;
+  class: string;
+  children: RouteInfo[];
+}
+
+export const ROUTES: RouteInfoWithChild[] = [
+  {
+    path: '/cansat-tracking', title: 'CanSat Tracking', icon: 'nc-air-baloon', class: '',
+    children: [
+      {path: '/cansat-tracking/settings', title: 'Settings', icon: '', class: ''}
+    ]
+  },
 ];
 
 @Component({
-    moduleId: module.id,
-    selector: 'sidebar-cmp',
-    templateUrl: 'sidebar.component.html',
+  moduleId: module.id,
+  selector: 'sidebar-cmp',
+  templateUrl: 'sidebar.component.html',
 })
 
 export class SidebarComponent implements OnInit {
-    public menuItems: any[];
-    ngOnInit() {
-        this.menuItems = ROUTES.filter(menuItem => menuItem);
-    }
+  public menuItems: RouteInfoWithChild[];
+
+  constructor(public router: Router) {
+
+  }
+
+  ngOnInit() {
+    this.menuItems = ROUTES.filter(menuItem => menuItem);
+  }
 }
