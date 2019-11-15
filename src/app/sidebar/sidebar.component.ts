@@ -19,8 +19,9 @@ export interface RouteInfoWithChild {
 
 export const ROUTES: RouteInfoWithChild[] = [
   {
-    path: '/cansat-tracking', title: 'CanSat Tracking', icon: 'nc-air-baloon', class: '',
+    path: '/cansat-tracking', title: 'CanSat Tracking', icon: 'nc-air-baloon', class: null,
     children: [
+      {path: '/cansat-tracking/saved-data', title: 'Saved Data', icon: '', class: ''},
       {path: '/cansat-tracking/settings', title: 'Settings', icon: '', class: ''}
     ]
   },
