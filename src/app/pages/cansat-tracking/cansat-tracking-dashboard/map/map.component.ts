@@ -1,7 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-// import {CesiumBalloon.glb} from '../../../../../assets/3d_models';
-
-declare const Cesium: any;
+import {Component, Input, OnInit} from '@angular/core';
+import {CansatTrackingService} from '../../services/cansat-tracking.service';
 
 @Component({
   selector: 'app-map',
@@ -9,27 +7,22 @@ declare const Cesium: any;
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
-  default_access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwZTkwMTE0NC0xNDI5LTQ0MzEtOGQzMy01NjA3NTA2NzlkMzIiLCJpZCI6MTgxNDQsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1NzM0MDA3MDl9.gdX9hOVF7dEjO8N2i04QPVthTmfpvdnSk9BvUgU5BCs';
   map: any;
   model: any;
 
-  latitude = 90.407206;
-  longitude = 23.7823682;
-  altitude = 50;
+  @Input() model_latitude = 90.407206;
+  @Input() model_longitude = 23.7823682;
+  @Input() model_altitude = 50;
 
-  constructor() {
+  constructor(private cansatTrackingService: CansatTrackingService) {
   }
 
   ngOnInit() {
     this.initMap();
-    // Cesium.Ion.defaultAccessToken = ''
-    // let map = new Cesium.Viewer('cesiumContainer', {
-    //   terrainProvider: Cesium.createWorldTerrain()
-    // });
   }
 
   initMap() {
-    Cesium.Ion.defaultAccessToken = this.default_access_token;
+    Cesium.Ion.defaultAccessToken = this.cansatTrackingService.mapOptions.access_token;
     const map_options = {
       infoBox: false,
       selectionIndicator: false,
@@ -37,7 +30,8 @@ export class MapComponent implements OnInit {
       shouldAnimate: true
     };
     this.map = new Cesium.Viewer('cesiumContainer', map_options);
-    this.createCanSatModel(this.map, '../../../../../assets/3d_models/CesiumBalloon.glb', [this.latitude, this.longitude, this.altitude]);
+    this.createCanSatModel(this.map, this.cansatTrackingService.mapOptions.model_url,
+      [this.model_latitude, this.model_longitude, this.model_altitude]);
   }
 
   createCanSatModel(map, url, coordinate) {
