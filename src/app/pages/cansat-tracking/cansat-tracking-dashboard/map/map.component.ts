@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {CansatTrackingService} from '../../services/cansat-tracking.service';
 
 @Component({
@@ -6,7 +6,7 @@ import {CansatTrackingService} from '../../services/cansat-tracking.service';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnChanges {
   map: any;
   model: any;
 
@@ -19,6 +19,10 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     this.initMap();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.model.position = Cesium.Cartesian3.fromDegrees(this.model_latitude, this.model_longitude, this.model_altitude);
   }
 
   initMap() {
@@ -56,19 +60,19 @@ export class MapComponent implements OnInit {
 
     map.trackedEntity = this.model;
 
-    setTimeout(() => {
-      map.trackedEntity = null;
-
-      // setInterval(() => {
-      //   if (this.altitude > 0) {
-      //     this.longitude += 0.000001;
-      //     this.latitude += 0.000001;
-      //     this.altitude -= 0.1;
-      //     console.log(this.longitude, this.latitude, this.altitude);
-      //     this.model.position = Cesium.Cartesian3.fromDegrees(this.latitude, this.longitude, this.altitude);
-      //   }
-      // }, 50);
-    }, 5000);
+    // setTimeout(() => {
+    //   map.trackedEntity = null;
+    //
+    //   // setInterval(() => {
+    //   //   if (this.altitude > 0) {
+    //   //     this.longitude += 0.000001;
+    //   //     this.latitude += 0.000001;
+    //   //     this.altitude -= 0.1;
+    //   //     console.log(this.longitude, this.latitude, this.altitude);
+    //   //     this.model.position = Cesium.Cartesian3.fromDegrees(this.latitude, this.longitude, this.altitude);
+    //   //   }
+    //   // }, 50);
+    // }, 5000);
   }
 
 }
