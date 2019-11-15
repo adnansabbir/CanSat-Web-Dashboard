@@ -6,7 +6,10 @@ import {CesiumMapConfig} from '../cansat-tracking.models';
 })
 export class CansatTrackingService {
 
-  mapOptions: CesiumMapConfig;
+  mapOptions: CesiumMapConfig = {
+    access_token: '',
+    model_url: ''
+  };
   chromeSerialReaderAppId = '';
 
   localStorageKeys = {
@@ -19,7 +22,9 @@ export class CansatTrackingService {
   }
 
   public updateSiteConfigs(): void {
-    this.mapOptions = this.getMapOptionFromLocalDB();
+    const mapOptionFromLocalDb = this.getMapOptionFromLocalDB();
+    mapOptionFromLocalDb ? this.mapOptions = mapOptionFromLocalDb :
+      this.mapOptions.model_url = './../../../../assets/3d_models/CesiumBalloon.glb';
     this.chromeSerialReaderAppId = this.getChromeSerialReaderAppIdFromLocalDB();
   }
 
