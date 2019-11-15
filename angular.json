@@ -18,14 +18,21 @@
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/cesium/Build/Cesium/Assets",
+                "output": "./assets/cesium"
+              }
             ],
             "styles": [
               "node_modules/bootstrap/scss/bootstrap.scss",
               "src/assets/scss/paper-dashboard.scss",
-              "node_modules/ngx-toastr/toastr.css"
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/cesium/Build/Cesium/Widgets/widgets.css"
             ],
             "scripts": [
+              "node_modules/cesium/Build/Cesium/Cesium.js"
             ]
           },
           "configurations": {
