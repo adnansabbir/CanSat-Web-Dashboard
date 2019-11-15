@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {CesiumMapConfig} from '../cansat-tracking.models';
+import {CanSatData, CesiumMapConfig, CanSatDataSet} from '../cansat-tracking.models';
+import {Guid} from 'guid-typescript';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class CansatTrackingService {
   localStorageKeys = {
     map_config: 'cesium_map_config',
     serial_reader_app_id: 'chrome_serial_reader_app_id',
+    data_set: 'data_set_'
   };
 
   constructor() {
@@ -45,6 +47,27 @@ export class CansatTrackingService {
     localStorage.setItem(this.localStorageKeys['serial_reader_app_id'], JSON.stringify(appId));
     return new Promise((resolve, reject) => {
       resolve(true);
+    });
+  }
+
+  storeNewData(data: CanSatData[], name): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      if (!data.length) {
+        console.error('No data to save');
+        reject('No data to save');
+      }
+
+      const newGuid = Guid.create();
+      const dataSet: CanSatDataSet = {
+        data: data,
+        name: name,
+        _id: newGuid['value'],
+        date_created: new Date(),
+        date_modified: new Date()
+      };
+      localStorage.setItem(this.localStorageKeys['data_set'] + newGuid, JSON.stringify(dataSet));
+
+      resolve(true)
     });
   }
 

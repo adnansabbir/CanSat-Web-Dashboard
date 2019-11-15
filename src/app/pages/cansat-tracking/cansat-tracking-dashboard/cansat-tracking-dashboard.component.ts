@@ -1,5 +1,5 @@
 import {Component, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
-import {CanSatData, CansatTrackingCards} from '../cansat-tracking.models';
+import {AlertMessage, CanSatData, CansatTrackingCards} from '../cansat-tracking.models';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import {CansatTrackingService} from '../services/cansat-tracking.service';
@@ -13,6 +13,7 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
   browserAppId = '';
   browserIsChrome = false;
   browserConnected = false;
+  openDataSaveModel = false;
   browserConnection = null;
   serial_port_connected = false;
   dataRecordStarted = false;
@@ -31,6 +32,11 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
     pressure: 0,
     temp: 0
   };
+
+  newDataSaveForm: FormControl = new FormControl('');
+  alertsToDisplay: AlertMessage[] = [
+    {message: 'Chrome App to read Serial Data not available', class: 'alert-warning'}
+  ];
 
   cards: CansatTrackingCards[] = [
     {title: 'Mission Time', subtitle: '', icon_class_name: 'nc-watch-time', data_key: 'mission_time'},
@@ -64,11 +70,6 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
     this.formInit();
     this.browserAppId = this.cansatTrackingService.chromeSerialReaderAppId;
     this.connectToSerialReader();
-    this.subscription_list.push(
-      this.serialConfigForm.valueChanges.subscribe(data => {
-        console.log(data);
-      })
-    );
   }
 
   formInit() {
@@ -80,6 +81,9 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
 
   connectToSerialReader() {
     this.browserIsChrome = !!window['chrome'] && (!!window['chrome']['webstore'] || !!window['chrome']['runtime']);
+    if (!this.browserIsChrome) {
+      this.alertsToDisplay.push({message: 'Works only on Chrome Browsers', class: 'alert-warning'})
+    }
     if (this.browserIsChrome) {
       try {
         this.browserConnection = window['chrome']['runtime'].connect(this.browserAppId);
@@ -99,6 +103,7 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
     switch (true) {
       case (msg['establishConnection'] === true): {
         this.browserConnected = true;
+        this.alertsToDisplay.shift();
         break;
       }
 
@@ -162,6 +167,14 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
 
   onStopRecording() {
     this.dataRecordStarted = false;
-    console.log(this.canSatDataSet);
+    this.openDataSaveModel = true;
+    // console.log(this.canSatDataSet);
+  }
+
+  onRecordingSave(data) {
+    this.cansatTrackingService.storeNewData(this.canSatDataSet, this.newDataSaveForm.value).catch(result => {
+      this.alertsToDisplay.push({message: 'Error Saving Data : ' + result, class: 'alert-danger'})
+    });
+    // console.log(this.newDataSaveForm.value);
   }
 }

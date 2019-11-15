@@ -1,7 +1,6 @@
 <div class="container-fluid">
-  <div class="alert alert-warning" role="alert" *ngIf="!browserIsChrome">Works only on Chrome Browsers</div>
-  <div class="alert alert-warning" role="alert" *ngIf="!browserConnected">Chrome App to read Serial Data not available
-  </div>
+  <div class="alert {{alert.class}}" role="alert" *ngFor="let alert of alertsToDisplay">{{alert.message}}</div>
+
   <form class="row" [formGroup]="serialConfigForm" (ngSubmit)="onConnect()">
     <div class="form-group col-3">
       <select name="" class="form-control" formControlName="port" (click)="reloadPorts()">
@@ -45,3 +44,13 @@
     </div>
   </div>
 </div>
+<app-modal
+  title="Enter a name to save data"
+  [modalBody]="saveModalBody"
+  (onSaveButtonClick)="onRecordingSave($event)"
+  [modalOpen]="openDataSaveModel"
+></app-modal>
+
+<ng-template #saveModalBody>
+  <input class="form-control" type="text" [formControl]="newDataSaveForm" placeholder="Name of your data">
+</ng-template>

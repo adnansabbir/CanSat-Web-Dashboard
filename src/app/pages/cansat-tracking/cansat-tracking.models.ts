@@ -5,7 +5,7 @@ export class CansatTrackingCards {
   data_key: string;
 }
 
-export class CanSatData {
+export interface CanSatData {
   altitude: number;
   battery_voltage: number;
   gps_location: [number, number];
@@ -15,7 +15,20 @@ export class CanSatData {
   temp: number;
 }
 
+export interface CanSatDataSet {
+  data: CanSatData[];
+  name: string;
+  _id: string;
+  date_created: Date;
+  date_modified: Date;
+}
+
 export class CesiumMapConfig {
   access_token: string;
   model_url: string;
+}
+
+export interface AlertMessage {
+  message: string;
+  class: string;
 }
