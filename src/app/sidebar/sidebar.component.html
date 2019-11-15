@@ -1,4 +1,3 @@
-
 <div class="sidebar-wrapper">
   <div class="logo">
     <a href="#" class="simple-text logo-mini">
@@ -10,12 +9,19 @@
       Data Logger
     </a>
   </div>
-    <ul class="nav">
-        <li *ngFor="let menuItem of menuItems" routerLinkActive="active" class="{{menuItem.class}}">
-            <a [routerLink]="[menuItem.path]">
-                <i class="nc-icon {{menuItem.icon}}"></i>
-                <p>{{menuItem.title}}</p>
-            </a>
-        </li>
-    </ul>
+  <ul class="nav">
+    <span *ngFor="let menuItem of menuItems">
+      <li routerLinkActive="active" class="{{menuItem.class}}">
+        <a [routerLink]="[menuItem.path]">
+          <i class="nc-icon {{menuItem.icon}}"></i>
+          <p>{{menuItem.title}}</p>
+        </a>
+      </li>
+      <li routerLinkActive="active" class="{{menuItem.class}}" *ngIf="router.url.includes(menuItem.path)">
+        <a [routerLink]="[subMenu.path]" *ngFor="let subMenu of menuItem.children" class="p-0 pl-5 mt-0">
+          <p>{{subMenu.title}}</p>
+        </a>
+      </li>
+    </span>
+  </ul>
 </div>
