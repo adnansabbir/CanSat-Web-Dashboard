@@ -1,1 +1,47 @@
-<p>cansat-tracking-settings works!</p>
+<div class="container">
+  <form [formGroup]="settingsForm" class="bg-white p-5 card" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col">
+        <label for="access_token">Cesium API Access Token</label>
+        <input id="access_token" type="text" class="form-control" placeholder="Cesium API Access Token"
+               formControlName="access_token">
+      </div>
+      <div class="col">
+        <label for="model_url">Cesium Model URL</label>
+        <input id="model_url" type="text" class="form-control" placeholder="Cesium Model URL"
+               formControlName="model_url">
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-6">
+        <label for="chrome_serial_reader_app_id">Chrome Serial Reader App ID</label>
+        <input id="chrome_serial_reader_app_id" type="text" class="form-control" placeholder="Chrome Serial Reader App ID"
+               formControlName="chrome_serial_reader_app_id">
+      </div>
+    </div>
+
+    <div class="row footer-buttons border-top mt-5">
+      <div class="col-12">
+        <button class="btn btn-success float-right" type="submit" [disabled]="!settingsForm.valid">Save</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="card">
+    <div class="card-header">Information</div>
+    <div class="card-body">
+      <h5 class="card-title">How to get your Cesium API Access Token</h5>
+      <p class="card-text">Sign up at Cesium.com and get your access token. Paste your access token above</p>
+      <a href="https://cesium.com/ion/signup" class="btn btn-outline-info" target="_blank">Cesium Sign Up Link</a>
+    </div>
+
+    <div class="card-body">
+      <h5 class="card-title">How to get Chrome Serial Reader App Id</h5>
+      <p class="card-text">In your chrome browser click the 3 dot at top right -> More Tools -> Extensions. Locate Serial Reader and copy the ID and paste in the above box</p>
+      <p class="card-text">If the chrome extension is not installed on your chrome, download app from github repo and add it. Since this app is not published in chrome app store you need to enable Developer Mode</p>
+      <p class="card-text">App Installation Procedure - Go you to your extensions and click <strong>Load unpacked</strong> and locate the root of the downloaded app</p>
+      <a href="https://github.com/adnansabbir/ChromeSerialReaderApp" class="btn btn-outline-info" target="_blank">Chrome Serial Reader App Repo</a>
+    </div>
+  </div>
+
+</div>
