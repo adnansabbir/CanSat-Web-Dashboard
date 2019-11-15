@@ -14,6 +14,7 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
   browserConnected = false;
   browserConnection = null;
   serial_port_connected = false;
+  dataRecordStarted = false;
   availablePorts: string[] = [];
   availableBaudRates: string[] = ['9600'];
   serialConfigForm: FormGroup;
@@ -94,7 +95,6 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
   }
 
   onMsgReceived(msg) {
-    console.log(msg);
     switch (true) {
       case (msg['establishConnection'] === true): {
         this.browserConnected = true;
@@ -123,31 +123,12 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
             this.canSatData[key] = msg[key]
           }
         });
-        this.canSatDataSet.push(this.canSatData);
+        if (this.dataRecordStarted) {
+          this.canSatDataSet.push(this.canSatData);
+        }
         this.serial_connection_error = null;
       }
-
-      // case this.browserConnected && msg['serial_port_status']: {
-      //   this.serial_port_connected = msg['serial_port_status'] === 'connected';
-      //   break;
-      // }
     }
-
-    // if (msg['establishConnection'] === true) {
-    //   this.browserConnected = true;
-    // } else if (this.browserConnected && msg['device_list']) {
-    //   this.availablePorts = msg['device_list'];
-    //   console.log('got New device list ', this.availablePorts);
-    // } else if (this.browserConnected && msg['serial_port_status']) {
-    //   this.serial_port_connected = msg['serial_port_status'] === 'connected';
-    //   console.log(this.serial_port_connected);
-    // } else if (msg) {
-    //   Object.keys(msg).forEach((key) => {
-    //     if (this.canSatData.hasOwnProperty(key)) {
-    //       this.canSatData[key] = msg[key]
-    //     }
-    //   });
-    // }
   }
 
   onConnect() {
@@ -172,5 +153,14 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
         reload_ports: true
       })
     }
+  }
+
+  onStartRecording() {
+    this.dataRecordStarted = true;
+  }
+
+  onStopRecording() {
+    this.dataRecordStarted = false;
+    console.log(this.canSatDataSet);
   }
 }
