@@ -7,29 +7,37 @@ import {CesiumMapConfig} from '../cansat-tracking.models';
 export class CansatTrackingService {
 
   mapOptions: CesiumMapConfig;
+  chromeSerialReaderAppId = '';
 
   localStorageKeys = {
-    map_config: 'cesium_map_config'
+    map_config: 'cesium_map_config',
+    serial_reader_app_id: 'chrome_serial_reader_app_id',
   };
 
   constructor() {
-    this.updateMapOptions();
+    this.updateSiteConfigs();
   }
 
-  public updateMapOptions(): void {
+  public updateSiteConfigs(): void {
     this.mapOptions = this.getMapOptionFromLocalDB();
+    this.chromeSerialReaderAppId = this.getChromeSerialReaderAppIdFromLocalDB();
+  }
+
+  private getChromeSerialReaderAppIdFromLocalDB() {
+    return JSON.parse(localStorage.getItem(this.localStorageKeys['serial_reader_app_id']));
   }
 
   private getMapOptionFromLocalDB() {
     return JSON.parse(localStorage.getItem(this.localStorageKeys['map_config']));
   }
 
-  public storeMapOptions(): Promise<boolean> {
-    return this.storeMapOptionsToLocalDB(this.mapOptions);
+  public storeMapOptions(mapConfig: CesiumMapConfig, appId: string): Promise<boolean> {
+    return this.storeMapOptionsToLocalDB(mapConfig, appId);
   }
 
-  private storeMapOptionsToLocalDB(data: CesiumMapConfig): Promise<boolean> {
-    localStorage.setItem(this.localStorageKeys['map_config'], JSON.stringify(data));
+  private storeMapOptionsToLocalDB(mapConfig: CesiumMapConfig, appId: string): Promise<boolean> {
+    localStorage.setItem(this.localStorageKeys['map_config'], JSON.stringify(mapConfig));
+    localStorage.setItem(this.localStorageKeys['serial_reader_app_id'], JSON.stringify(appId));
     return new Promise((resolve, reject) => {
       resolve(true);
     });
