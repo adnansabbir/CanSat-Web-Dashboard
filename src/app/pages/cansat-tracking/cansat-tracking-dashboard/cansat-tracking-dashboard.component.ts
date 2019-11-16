@@ -152,7 +152,6 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
         });
         if (this.dataRecordStarted) {
           this.canSatDataSet.push(JSON.parse(JSON.stringify(this.canSatData)));
-          console.log(this.canSatDataSet);
         }
         this.serial_connection_error = null;
       }
@@ -188,6 +187,7 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
   onStartRecording() {
     this.canSatDataSet = [];
     this.dataRecordStarted = true;
+    this.openDataSaveModel = false;
   }
 
   onStopRecording() {
