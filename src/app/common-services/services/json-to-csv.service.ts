@@ -14,12 +14,14 @@ export class JsonToCsvService {
 
     for (let i = 0; i < array.length; i++) {
       let line = '';
-      for (const index of array[i]) {
-        if (line !== '') {
-          line += ',';
-        }
+      for (let key in array[i]) {
+        if (key) {
+          if (line !== '') {
+            line += ',';
+          }
 
-        line += array[i][index];
+          line += array[i][key];
+        }
       }
 
       str += line + '\r\n';
@@ -35,6 +37,7 @@ export class JsonToCsvService {
 
     // Convert Object to JSON
     const jsonObject = JSON.stringify(items);
+
 
     const csv = this.convertToCSV(jsonObject);
 
@@ -57,4 +60,27 @@ export class JsonToCsvService {
       }
     }
   };
+
+  convertNestedObjectArrayToFlatArrayObject = (objectArray: {}[]) => {
+    const new_array = [];
+    for (const object of objectArray) {
+      const new_object = {};
+      for (const key in object) {
+        if (key) {
+          if (typeof object[key] === 'object') {
+            for (const sub_key in object[key]) {
+              if (sub_key) {
+                new_object[`${key}_${sub_key}`] = object[key][sub_key];
+              }
+            }
+          } else {
+            new_object[key] = object[key]
+          }
+        }
+      }
+      new_array.push(new_object);
+      // console.log(new_object);
+    }
+    return new_array;
+  }
 }
