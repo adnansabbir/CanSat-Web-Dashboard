@@ -71,4 +71,17 @@ export class CansatTrackingService {
     });
   }
 
+  getAllCanSatData() {
+    const data: CanSatDataSet[] = [];
+    for (let key in localStorage) {
+      if (key) {
+        if (key.substring(0, this.localStorageKeys['data_set'].length) === this.localStorageKeys['data_set']) {
+          data.push(JSON.parse(localStorage.getItem(key)));
+        }
+      }
+    }
+
+    return data;
+  }
+
 }
