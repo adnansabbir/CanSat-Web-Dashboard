@@ -71,7 +71,7 @@ export class CansatTrackingService {
     });
   }
 
-  getAllCanSatData() {
+  getAllCanSatData(): CanSatDataSet[] {
     const data: CanSatDataSet[] = [];
     for (let key in localStorage) {
       if (key) {
@@ -80,8 +80,11 @@ export class CansatTrackingService {
         }
       }
     }
-
     return data;
+  }
+
+  deleteCanSatDataById(_id: string) {
+    localStorage.removeItem(this.localStorageKeys['data_set'] + _id);
   }
 
 }

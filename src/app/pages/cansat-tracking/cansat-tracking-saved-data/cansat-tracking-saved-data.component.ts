@@ -26,13 +26,17 @@ export class CansatTrackingSavedDataComponent implements OnInit {
 
   ngOnInit() {
     this.canSatData = this.cansatTrackingService.getAllCanSatData();
-    // this.jsonToCsvService.exportCSVFile(this.csvHeaders, this.canSatData[0].data, this.canSatData[0].name);
-    // console.log(this.jsonToCsvService.convertNestedObjectArrayToFlatArrayObject(this.canSatData[0].data));
   }
 
   downloadCsv(_id) {
     const data = this.canSatData.find(obj => obj._id === _id);
     const unNestedData = data ? this.jsonToCsvService.convertNestedObjectArrayToFlatArrayObject(data.data) : null;
     this.jsonToCsvService.exportCSVFile(this.csvHeaders, unNestedData, data.name)
+  }
+
+  deleteData(_id: string) {
+    // this.canSatData = this.canSatData.filter(data => data._id !== _id)
+    this.cansatTrackingService.deleteCanSatDataById(_id);
+    this.canSatData = this.cansatTrackingService.getAllCanSatData();
   }
 }

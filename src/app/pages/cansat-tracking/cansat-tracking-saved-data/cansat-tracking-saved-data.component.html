@@ -5,7 +5,7 @@
       <th scope="col">SL</th>
       <th scope="col">Name</th>
       <th scope="col">Created Date</th>
-      <th scope="col">Download in CSV</th>
+      <th scope="col">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -13,7 +13,10 @@
       <th scope="row">{{i+1}}</th>
       <td>{{data['name']}}</td>
       <td>{{data['date_created']}}</td>
-      <td><i class="nc-icon nc-single-copy-04 btn" (click)="downloadCsv(data._id)"></i></td>
+      <td>
+        <i class="nc-icon nc-single-copy-04 btn" (click)="downloadCsv(data._id)" data-toggle="tooltip" title="Download in CSV"></i>
+        <i class="ml-1 nc-icon nc-simple-remove btn btn-danger" (click)="deleteData(data._id)" data-toggle="tooltip" title="Delete Data"></i>
+      </td>
     </tr>
     </tbody>
   </table>
