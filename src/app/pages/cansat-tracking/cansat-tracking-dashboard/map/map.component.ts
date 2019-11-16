@@ -24,7 +24,6 @@ export class MapComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if ((changes['model_latitude'] || changes['model_longitude'] || changes['model_altitude']) && this.model) {
-      console.log(this.model_altitude);
       this.model.position = Cesium.Cartesian3.fromDegrees(this.model_longitude.toFixed(6),
         this.model_latitude.toFixed(6),
         this.model_altitude >= this.altitude_offset ? this.model_altitude - this.altitude_offset : this.model_altitude);
