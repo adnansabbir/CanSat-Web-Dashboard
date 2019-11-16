@@ -35,12 +35,44 @@
     </div>
   </div>
 
+
   <div class="row">
     <div class="col-12 col-sm-12 col-md-12 col-lg-6">
-      <app-map></app-map>
+      <app-map [model_latitude]="canSatData['gps']['lat']"
+               [model_longitude]="canSatData['gps']['long']"
+               [model_altitude]="canSatData.altitude"
+               [altitude_offset]="34"></app-map>
     </div>
+
     <div class="col-12 col-sm-12 col-md-12 col-lg-6">
-      <h1>Other Data</h1>
+      <div class="card card-stats p-3">
+        <div class="card-body ">
+          <div class="row">
+            <div class="col-12 col-md-12 mb-2">
+              <div class="numbers text-center">
+                <p class="card-category">GPS DATA</p>
+              </div>
+            </div>
+
+            <table class="table">
+              <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Value</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let item of canSatGpsDataKeyValue | keyvalue">
+                <th scope="row">{{item.value['name']}}</th>
+                <td>{{item.value['value']}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer ">
+        </div>
+      </div>
     </div>
   </div>
 </div>

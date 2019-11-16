@@ -18,7 +18,7 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
   serial_port_connected = false;
   dataRecordStarted = false;
   availablePorts: string[] = [];
-  availableBaudRates: string[] = ['9600'];
+  availableBaudRates: string[] = ['9600', '115200'];
   serialConfigForm: FormGroup;
   subscription_list: Subscription[] = [];
   serial_connection_error: string;
@@ -26,12 +26,25 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
   canSatData: CanSatData = {
     altitude: 0,
     battery_voltage: 0,
-    gps_location: [0, 0],
-    gps_time: 0,
+    gps: {
+      alt: 0,
+      lat: 23.7823682,
+      long: 90.407206,
+      sat_count: 0,
+      speed: 0,
+      time: 0,
+    },
+    gyro: {
+      pitch: 0,
+      roll: 0,
+      yaw: 0,
+    },
     mission_time: 0,
     pressure: 0,
     temp: 0
   };
+
+  canSatGpsDataKeyValue: any = {};
 
   newDataSaveForm: FormControl = new FormControl('');
   alertsToDisplay: AlertMessage[] = [
@@ -67,6 +80,7 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
   }
 
   ngOnInit() {
+    // debugger;
     this.formInit();
     this.browserAppId = this.cansatTrackingService.chromeSerialReaderAppId;
     this.connectToSerialReader();
@@ -129,6 +143,13 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
             this.canSatData[key] = msg[key];
           }
         });
+
+        Object.keys(this.canSatData.gps).forEach(key => {
+          this.canSatGpsDataKeyValue[key] = {
+            name: key.replace(/_/g, ' ').toUpperCase(),
+            value: this.canSatData.gps[key]
+          };
+        });
         if (this.dataRecordStarted) {
           this.canSatDataSet.push(this.canSatData);
           console.log(this.canSatDataSet);
@@ -150,7 +171,9 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
     if (this.browserConnected) {
       this.browserConnection.postMessage({
         disconnect_serial: true
-      })
+      });
+
+      this.dataRecordStarted = false;
     }
   }
 
@@ -163,6 +186,7 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
   }
 
   onStartRecording() {
+    this.canSatDataSet = [];
     this.dataRecordStarted = true;
   }
 
@@ -173,6 +197,7 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
   }
 
   onRecordingSave(data) {
+    this.openDataSaveModel = false;
     this.cansatTrackingService.storeNewData(this.canSatDataSet, this.newDataSaveForm.value).catch(result => {
       this.alertsToDisplay.push({message: 'Error Saving Data : ' + result, class: 'alert-danger'})
     });

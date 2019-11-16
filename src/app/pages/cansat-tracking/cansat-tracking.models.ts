@@ -5,11 +5,26 @@ export class CansatTrackingCards {
   data_key: string;
 }
 
+export interface GpsDataModel {
+  alt: number;
+  lat: number;
+  long: number;
+  sat_count: number;
+  speed: number;
+  time: number;
+}
+
+export interface GyroDataModel {
+  pitch: number;
+  roll: number;
+  yaw: number;
+}
+
 export interface CanSatData {
   altitude: number;
   battery_voltage: number;
-  gps_location: [number, number];
-  gps_time: number;
+  gps: GpsDataModel;
+  gyro: GyroDataModel;
   mission_time: number;
   pressure: number;
   temp: number;
