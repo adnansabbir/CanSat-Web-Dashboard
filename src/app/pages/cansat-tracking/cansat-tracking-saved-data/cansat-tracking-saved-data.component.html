@@ -12,7 +12,7 @@
     <tr *ngFor="let data of canSatData; let i = index">
       <th scope="row">{{i+1}}</th>
       <td>{{data['name']}}</td>
-      <td>{{data['date_created']}}</td>
+      <td>{{data['date_created'] |date: 'medium'}}</td>
       <td>
         <i class="nc-icon nc-single-copy-04 btn" (click)="downloadCsv(data._id)" data-toggle="tooltip" title="Download in CSV"></i>
         <i class="ml-1 nc-icon nc-simple-remove btn btn-danger" (click)="deleteData(data._id)" data-toggle="tooltip" title="Delete Data"></i>

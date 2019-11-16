@@ -3,6 +3,7 @@ export class CansatTrackingCards {
   subtitle: string;
   icon_class_name: string;
   data_key: string;
+  unit: string;
 }
 
 export interface GpsDataModel {

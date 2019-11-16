@@ -45,6 +45,7 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
   };
 
   canSatGpsDataKeyValue: any = {};
+  missionTimeTimer: any;
 
   newDataSaveForm: FormControl = new FormControl('');
   alertsToDisplay: AlertMessage[] = [
@@ -52,12 +53,12 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
   ];
 
   cards: CansatTrackingCards[] = [
-    {title: 'Mission Time', subtitle: '', icon_class_name: 'nc-watch-time', data_key: 'mission_time'},
-    {title: 'GPS Time', subtitle: '', icon_class_name: 'nc-compass-05', data_key: 'gps_time'},
-    {title: 'Temperature', subtitle: '', icon_class_name: 'nc-sun-fog-29', data_key: 'temp'},
-    {title: 'Pressure', subtitle: '', icon_class_name: 'nc-sound-wave', data_key: 'pressure'},
-    {title: 'Altitude', subtitle: '', icon_class_name: 'nc-air-baloon', data_key: 'altitude'},
-    {title: 'Battery Voltage', subtitle: '', icon_class_name: 'nc-bulb-63', data_key: 'battery_voltage'},
+    {title: 'Mission Time', subtitle: '', icon_class_name: 'nc-watch-time', data_key: 'mission_time', unit: 'Sec'},
+    // {title: 'GPS Time', subtitle: '', icon_class_name: 'nc-compass-05', data_key: 'gps_time', unit: ''},
+    {title: 'Temperature', subtitle: '', icon_class_name: 'nc-sun-fog-29', data_key: 'temp', unit: 'C'},
+    {title: 'Pressure', subtitle: '', icon_class_name: 'nc-sound-wave', data_key: 'pressure', unit: 'hpa'},
+    {title: 'Altitude', subtitle: '', icon_class_name: 'nc-air-baloon', data_key: 'altitude', unit: 'm'},
+    {title: 'Battery Voltage', subtitle: '', icon_class_name: 'nc-bulb-63', data_key: 'battery_voltage', unit: 'V'},
   ];
 
   constructor(private zone: NgZone,
@@ -139,7 +140,7 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
 
       case (this.browserConnected && !!msg): {
         Object.keys(msg).forEach((key) => {
-          if (this.canSatData.hasOwnProperty(key)) {
+          if (this.canSatData.hasOwnProperty(key) && key !== 'mission_time') {
             this.canSatData[key] = msg[key]
           }
         });
@@ -188,11 +189,14 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
     this.canSatDataSet = [];
     this.dataRecordStarted = true;
     this.openDataSaveModel = false;
+
+    this.missionTimeTimer = setInterval(() => this.canSatData.mission_time++, 1000);
   }
 
   onStopRecording() {
     this.dataRecordStarted = false;
     this.openDataSaveModel = true;
+    clearInterval(this.missionTimeTimer);
     // console.log(this.canSatDataSet);
   }
 

@@ -29,7 +29,7 @@
     <div class="col-lg-2 col-md-4 col-sm-6" *ngFor="let card of cards">
       <app-card
         [title]="card.title"
-        [subtitle]="canSatData[card.data_key]"
+        [subtitle]="canSatData[card.data_key]+' '+card.unit"
         [icon_class_name]="card.icon_class_name">
       </app-card>
     </div>
