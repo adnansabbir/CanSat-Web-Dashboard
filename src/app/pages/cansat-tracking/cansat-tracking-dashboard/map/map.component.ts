@@ -12,7 +12,8 @@ export class MapComponent implements OnInit, OnChanges {
 
   @Input() model_latitude = 23.7825;
   @Input() model_longitude = 90.40723;
-  @Input() model_altitude = 50;
+  @Input() model_altitude = 0;
+  @Input() altitude_offset = 0;
 
   constructor(private cansatTrackingService: CansatTrackingService) {
   }
@@ -22,10 +23,11 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if ((changes['model_latitude'] || changes['model_longitude'] || changes['model_longitude']) && this.model) {
+    if ((changes['model_latitude'] || changes['model_longitude'] || changes['model_altitude']) && this.model) {
+      console.log(this.model_altitude);
       this.model.position = Cesium.Cartesian3.fromDegrees(this.model_longitude.toFixed(6),
         this.model_latitude.toFixed(6),
-        this.model_altitude);
+        this.model_altitude >= this.altitude_offset ? this.model_altitude - this.altitude_offset : this.model_altitude);
     }
   }
 
