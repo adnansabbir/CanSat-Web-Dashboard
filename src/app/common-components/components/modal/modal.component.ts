@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef} from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap'
 
 @Component({
@@ -6,11 +6,12 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap'
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent implements OnInit, OnChanges {
   @Input() title: string;
   @Input() modalBody: TemplateRef<any>;
   @Output() onSaveButtonClick = new EventEmitter();
   @Input() modalOpen = false;
+  _modalOpen = false;
 
   constructor() {
   }
@@ -18,8 +19,14 @@ export class ModalComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['modalOpen']) {
+      this._modalOpen = changes['modalOpen'].currentValue;
+    }
+  }
+
   onCancel() {
-    this.modalOpen = false;
+    this._modalOpen = false;
   }
 
   onSave() {
