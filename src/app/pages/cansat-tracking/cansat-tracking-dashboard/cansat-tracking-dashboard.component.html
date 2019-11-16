@@ -39,7 +39,7 @@
     <div class="col-12 col-sm-12 col-md-12 col-lg-6">
       <app-map [model_latitude]="canSatData['gps']['lat']"
                [model_longitude]="canSatData['gps']['long']"
-               [model_altitude]="canSatData['altitude']"></app-map>
+               [model_altitude]="(canSatData['altitude']-34)+10"></app-map>
     </div>
 
     <div class="col-12 col-sm-12 col-md-12 col-lg-6">
