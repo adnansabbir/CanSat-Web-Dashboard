@@ -10,8 +10,8 @@ export class MapComponent implements OnInit, OnChanges {
   map: any;
   model: any;
 
-  @Input() model_latitude = 90.407206;
-  @Input() model_longitude = 23.7823682;
+  @Input() model_latitude = 23.7823682;
+  @Input() model_longitude = 90.407206;
   @Input() model_altitude = 50;
 
   constructor(private cansatTrackingService: CansatTrackingService) {
@@ -35,7 +35,7 @@ export class MapComponent implements OnInit, OnChanges {
     };
     this.map = new Cesium.Viewer('cesiumContainer', map_options);
     this.createCanSatModel(this.map, this.cansatTrackingService.mapOptions.model_url,
-      [this.model_latitude, this.model_longitude, this.model_altitude]);
+      [this.model_longitude, this.model_latitude, this.model_altitude]);
   }
 
   createCanSatModel(map, url, coordinate) {

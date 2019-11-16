@@ -28,8 +28,8 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
     battery_voltage: 0,
     gps: {
       alt: 0,
-      lat: 90.407206,
-      long: 23.7823682,
+      lat: 23.7823682,
+      long: 90.407206,
       sat_count: 0,
       speed: 0,
       time: 0,
