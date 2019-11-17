@@ -197,6 +197,7 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
     this.dataRecordStarted = false;
     this.openDataSaveModel = true;
     clearInterval(this.missionTimeTimer);
+    this.canSatData.mission_time = 0;
     // console.log(this.canSatDataSet);
   }
 
