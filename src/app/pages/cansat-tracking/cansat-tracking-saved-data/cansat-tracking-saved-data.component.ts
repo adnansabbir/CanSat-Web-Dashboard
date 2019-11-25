@@ -13,12 +13,34 @@ export class CansatTrackingSavedDataComponent implements OnInit {
   csvHeaders = {
     altitude: 'Altitude',
     battery_voltage: 'Battery Voltage',
-    gps: 'GPS Data',
-    gyro: 'Gyro Data',
+    gps_alt: 'GPS Altitude',
+    gps_lat: 'Latitude',
+    gps_long: 'Longitude',
+    gps_sat_count: 'Satellite Count',
+    gps_speed: 'Wind Speed',
+    gps_time: 'GPS Time',
+    gyro_pitch: 'Pitch',
+    gyro_roll: 'Roll',
+    gyro_yaw: 'Yaw',
     mission_time: 'Mission Time',
     pressure: 'Air Pressure',
-    temp: 'Temperature'
+    temp: 'Temperature',
   };
+
+  // altitude: 28.13
+  // battery_voltage: 41.89
+  // gps_alt: 32
+  // gps_lat: 90.39838
+  // gps_long: 23.77747
+  // gps_sat_count: 1
+  // gps_speed: 0.54
+  // gps_time: 12305500
+  // gyro_pitch: 2
+  // gyro_roll: 161
+  // gyro_yaw: 217
+  // mission_time: 0
+  // pressure: 1023
+  // temp: 25.25
 
   constructor(private cansatTrackingService: CansatTrackingService,
               private jsonToCsvService: JsonToCsvService) {
@@ -31,6 +53,7 @@ export class CansatTrackingSavedDataComponent implements OnInit {
   downloadCsv(_id) {
     const data = this.canSatData.find(obj => obj._id === _id);
     const unNestedData = data ? this.jsonToCsvService.convertNestedObjectArrayToFlatArrayObject(data.data) : null;
+    // console.log(unNestedData);
     this.jsonToCsvService.exportCSVFile(this.csvHeaders, unNestedData, data.name)
   }
 

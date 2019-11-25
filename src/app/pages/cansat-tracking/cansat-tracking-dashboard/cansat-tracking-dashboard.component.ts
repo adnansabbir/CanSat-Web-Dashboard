@@ -140,7 +140,8 @@ export class CansatTrackingDashboardComponent implements OnInit, OnDestroy, OnCh
 
       case (this.browserConnected && !!msg): {
         Object.keys(msg).forEach((key) => {
-          if (this.canSatData.hasOwnProperty(key) && key !== 'mission_time') {
+          if(this.canSatData.hasOwnProperty(key) && key !== 'mission_time')
+          {
             this.canSatData[key] = msg[key]
           }
         });

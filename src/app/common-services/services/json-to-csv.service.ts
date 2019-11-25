@@ -11,10 +11,11 @@ export class JsonToCsvService {
   convertToCSV = (objArray) => {
     const array = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray;
     let str = '';
+    const objectKeys = Object.keys(array[0]);
 
     for (let i = 0; i < array.length; i++) {
       let line = '';
-      for (let key in array[i]) {
+      for (let key of objectKeys) {
         if (key) {
           if (line !== '') {
             line += ',';
@@ -40,7 +41,6 @@ export class JsonToCsvService {
 
 
     const csv = this.convertToCSV(jsonObject);
-
     const exportedFilenmae = fileTitle + '.csv' || 'export.csv';
 
     const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
