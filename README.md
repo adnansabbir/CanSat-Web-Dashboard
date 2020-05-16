@@ -16,5 +16,3 @@ The CanSats are deployed from small rocket at height which varies depending on t
 CanSats are equipped with a recovery system, usually a parachute, to limit damage upon recovery and to 
 allow the CanSat to be reused. CanSats are used to teach space technology, because of their inexpensive price 
 and small volume.
-
-**_*More details will be given after completing the project_**
