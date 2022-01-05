@@ -4,7 +4,7 @@ This project is to build a web dashboard for logging data from wireless robotics
 
 The first goal to make this device is making a realtime data logger for [CanSat](https://en.wikipedia.org/wiki/CanSat#:~:targetText=A%20CanSat%20is%20a%20type,atmosphere%2C%20nor%20orbited%20the%20earth). 
 
-##Cansat
+## Cansat
 A CanSat is a type of sounding rocket payload used to teach space technology. 
 It is similar to the technology used in miniaturized satellites. 
 No CanSat has ever left the atmosphere, nor orbited the earth.
